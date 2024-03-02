@@ -70,3 +70,35 @@ FROM citas
 INNER JOIN mascotas ON mascotas.mas_id = citas.mascotas_mas_id
 INNER JOIN servicio ON servicio.ser_id = citas.servicio_ser_id
 INNER JOIN medico ON medico.med_id = citas.medico_med_id;
+
+#Point -15
+SELECT * FROM servicio;
+SELECT especializacion.esp_nombre,AVG(servicio.ser_costo) AS promedio FROM servicio
+INNER JOIN especializacion 
+ON especializacion.esp_id = servicio.especializacion_esp_id
+GROUP BY servicio.especializacion_esp_id
+HAVING promedio > 100;
+
+#Point -16
+SELECT concat(cliente.cli_nombre," ,",cliente.cli_correo," ,",cliente.cli_telefono) AS informacion_cliente FROM cliente;
+
+#Point -17
+SELECT  mascotas.mas_nombre, max(historias_clinicas.his_fecha) AS reciente_historia_clinica  FROM mascotas
+INNER JOIN historias_clinicas ON mascotas.mas_id = historias_clinicas.mascotas_mas_id
+GROUP BY mascotas.mas_id;
+
+#Point -18
+SELECT * FROM medicamentos 
+INNER JOIN historias_clinicas_has_medicamentos ON medicamentos.med_id = historias_clinicas_has_medicamentos.medicamentos_med_id;
+
+#Point -19
+SELECT citas.cit_fecha, 
+mascotas.mas_nombre, 
+servicio.ser_procedimiento,
+sede.sed_nombre
+FROM citas
+INNER JOIN mascotas ON mascotas.mas_id = citas.mascotas_mas_id
+INNER JOIN servicio ON servicio.ser_id = citas.servicio_ser_id
+INNER JOIN sede ON sede.sed_id = citas.sede_sed_id
+ORDER BY citas.cit_fecha DESC;
+
